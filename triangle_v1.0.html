@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Call me Triangle</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<script type="text/javascript" src="js/triangle.js"></script>
+	<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+</head>
+<body>
+	<div style="width:500px;margin:auto">
+		<canvas id="Mycanvas" width="500" height="500">
+			I will draw a Triangle!
+		</canvas>
+	</div>
+	<div style="width:60%;margin:auto">
+		<div class="input-group input-group-lg main" style="width: 250px;float: left;margin-right: 25px;">
+			<span class="input-group-addon glyphicon alert-info glyphicon-question-sign"></span>
+			<input id="paraA" class="form-control" placeholder="A->B边" onblur="checkNull(this.value,this.id)">
+		</div>
+		<div class="input-group input-group-lg main" style="width: 250px;float: left;margin-right: 25px;">
+			<span class="input-group-addon glyphicon alert-info glyphicon-question-sign"></span>
+			<input id="paraB" class="form-control" placeholder="B->C边" onblur="checkNull(this.value,this.id)">
+		</div>
+		<div class="input-group input-group-lg main" style="width: 250px">
+			<span class="input-group-addon glyphicon alert-info glyphicon-question-sign"></span>
+			<input id="paraC" class="form-control" placeholder="C->A边" onblur="checkNull(this.value,this.id)">
+		</div>
+		<!--<input type="button" value="提交" onclick="submitNum()">-->
+		<hr>
+		<div style="font-size: 18px;text-align: center;font-weight: bold;">
+			<p id="describtion">请输入三角形的三条边长（1~200整数）</p>
+		</div>
+	</div>
+	<div id="flag" style="display:none">
+		<span id="noneA">Wrong</span>
+		<span id="noneB">Wrong</span>
+		<span id="noneC">Wrong</span>
+	</div>
+
+	<script type="text/javascript">
+	var submitNum = function(){
+		var AB = $("#noneA").text()*1;
+		var BC = $("#noneB").text()*1;
+		var CA= $("#noneC").text()*1;
+		var describ = settlePara(AB,BC,CA).describ;
+		console.log(describ);
+		var node = document.createTextNode(describ);
+		document.getElementById("describtion").innerHTML = "";
+		document.getElementById("describtion").appendChild(node);
+
+		
+	}
+
+	var checkNull = function(val,id){
+		var intPattern = /^[1-9]+[0-9]*$/;
+		console.log($("#"+id).parent().index());
+		if(intPattern.test(val) && val && val<=200 && val>0){
+			$("#"+id).prev().attr({class:"input-group-addon glyphicon alert-success glyphicon-ok-sign"});
+			$("#flag").children().eq($("#"+id).parent().index()).text(val);
+		}
+		else{
+			$("#"+id).prev().attr({class:"input-group-addon glyphicon alert-danger glyphicon-remove-sign"});
+			$("#flag").children().eq($("#"+id).parent().index()).text("Wrong");
+		}
+		//数值符合，计算三角形入口
+		if($("#flag").children().text().indexOf("Wrong") == -1){
+			submitNum();
+		}
+	}
+
+	$("input").keydown(function(){
+		$(this).prev().attr({class:"input-group-addon glyphicon alert-info glyphicon-question-sign"});
+	});
+
+
+	</script>
+</body>
+</html>

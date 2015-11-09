@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Call me Triangle</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<script type="text/javascript" src="js/triangle.js"></script>
+	<script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="js/bootstrap.js"></script>
+</head>
+<body>
+	<div style="width:40%">
+		<div class="input-group input-group-lg main">
+			<span class="input-group-addon glyphicon alert-info glyphicon-question-sign"></span>
+			<input id="paraA" class="form-control" placeholder="A->B边" onchange="checkNull(this.value,this.id)">
+		</div>
+		<div class="input-group input-group-lg main">
+			<span class="input-group-addon glyphicon alert-info glyphicon-question-sign"></span>
+			<input id="paraB" class="form-control" placeholder="B->C边" onchange="checkNull(this.value,this.id)">
+		</div>
+		<div class="input-group input-group-lg main">
+			<span class="input-group-addon glyphicon alert-info glyphicon-question-sign"></span>
+			<input id="paraC" class="form-control" placeholder="C->A边" onchange="checkNull(this.value,this.id)">
+		</div>
+		<!--<input type="button" value="提交" onclick="submitNum()">-->
+		<hr>
+		<div>
+			<p id="describtion"></p>
+		</div>
+	</div>
+	<div id="flag" style="display:none">
+		<span id="noneA">0</span>
+		<span id="noneB">0</span>
+		<span id="noneC">0</span>
+	</div>
+
+	<canvas id="Mycanvas" width="500" height="500"></canvas>
+
+	<script type="text/javascript">
+	var submitNum = function(){
+
+		var intPattern = /^[1-9]+[0-9]*$/;
+		if(intPattern.test(document.getElementById("paraA").value)){
+			var a = parseInt(document.getElementById("paraA").value);
+		}
+		if(intPattern.test(document.getElementById("paraB").value)){
+			var b = parseInt(document.getElementById("paraB").value);
+		}
+		if(intPattern.test(document.getElementById("paraC").value)){
+			var c = parseInt(document.getElementById("paraC").value);
+		}
+		
+
+		if(a && b && c && a<=200 && a>0 && b<=200 && b>0 && c<=200 && c>0){
+
+			var describ = settlePara(a,b,c).describ;
+			console.log(describ);
+			var node = document.createTextNode(describ);
+
+			document.getElementById("describtion").innerHTML = "";
+			document.getElementById("describtion").appendChild(node);
+		}else{
+			var node = document.createTextNode("wrong Type");
+			document.getElementById("describtion").innerHTML = "";
+			document.getElementById("describtion").appendChild(node);
+		}
+	}
+
+	var checkNull = function(val,id){
+		var intPattern = /^[1-9]+[0-9]*$/;
+		console.log($("#"+id).parent().index());
+		if(intPattern.test(val) && val && val<=200 && val>0){
+			$("#"+id).prev().attr({class:"input-group-addon glyphicon alert-success glyphicon-ok-sign"});
+			$("#flag").children().eq($("#"+id).parent().index()).text(val);
+		}
+		else{
+			$("#"+id).prev().attr({class:"input-group-addon glyphicon alert-danger glyphicon-remove-sign"});
+			$("#flag").children().eq($("#"+id).parent().index()).text(0);
+		}
+		//数值符合，计算三角形入口
+		if($("#flag").children().text() == "111"){
+			submitNum();
+		}
+	}
+
+	$("input").keydown(function(){
+		$(this).prev().attr({class:"input-group-addon glyphicon alert-info glyphicon-question-sign"});
+	});
+
+
+	</script>
+</body>
+</html>
